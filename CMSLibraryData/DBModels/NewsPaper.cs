@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMSLibraryData.DBModels
 {
-    public class Video : CMSLibraryAsset
+    public class NewsPaper : CMSLibraryAsset
     {
         [Required]
-        public string Director { get; set; }
+        public string Name { get; set; }
 
         [Display(Name = "Publish Date")]
         public DateTime PublishDate { get; set; }

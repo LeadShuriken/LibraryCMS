@@ -2,7 +2,7 @@
 
 namespace CMSLibraryData.DBModels
 {
-    public class Book : LibraryAsset
+    public class Book : CMSLibraryAsset
     {
         [Required]
         [Display(Name ="ISBN #")]

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMSLibraryData.DBModels
 {
-    public class LibraryBranch
+    public class CMSLibraryBranch
     {
         public int Id { get; set; }
 
@@ -20,8 +20,8 @@ namespace CMSLibraryData.DBModels
         public string Description { get; set; }
         public DateTime OpenDate { get; set; }
 
-        public virtual IEnumerable<Subscriber> Patrons { get; set; }
-        public virtual IEnumerable<LibraryAsset> LibraryAssets { get; set; }
+        public virtual IEnumerable<Subscriber> Subscriber { get; set; }
+        public virtual IEnumerable<CMSLibraryAsset> LibraryAssets { get; set; }
 
         public string ImageUrl { get; set; }
     }

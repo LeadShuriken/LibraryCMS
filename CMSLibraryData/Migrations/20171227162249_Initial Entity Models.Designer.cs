@@ -12,9 +12,10 @@ using System;
 namespace CMSLibraryData.Migrations
 {
     [DbContext(typeof(CMSLibraryContext))]
-    partial class CMSLibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20171227162249_Initial Entity Models")]
+    partial class InitialEntityModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

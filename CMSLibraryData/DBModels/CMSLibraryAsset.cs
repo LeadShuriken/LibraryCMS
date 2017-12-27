@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMSLibraryData.DBModels
 {
-    public abstract class LibraryAsset
+    public abstract class CMSLibraryAsset
     {
         public int Id { get; set; }
 
@@ -23,6 +23,6 @@ namespace CMSLibraryData.DBModels
         
         public int NumberOfCopies { get; set; }
 
-        public virtual LibraryBranch Location { get; set; }
+        public virtual CMSLibraryBranch Location { get; set; }
     }
 }

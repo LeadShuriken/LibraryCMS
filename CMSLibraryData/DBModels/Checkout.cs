@@ -8,10 +8,10 @@ namespace CMSLibraryData.DBModels
         public int Id { get; set; }
 
         [Required, Display(Name = "Library Asset")]
-        public LibraryAsset LibraryAsset { get; set; }
+        public CMSLibraryAsset LibraryAsset { get; set; }
 
         [Display(Name = "Library Card")]
-        public LibraryCard LibraryCard { get; set; }
+        public CMSLibraryCard LibraryCard { get; set; }
 
         [Display(Name = "Checked Out Since")]
         public DateTime Since { get; set; }

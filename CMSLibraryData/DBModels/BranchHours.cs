@@ -5,7 +5,7 @@ namespace CMSLibraryData.DBModels
     public class BranchHours
     {
         public int Id { get; set; }
-        public LibraryBranch Branch { get; set; }
+        public CMSLibraryBranch Branch { get; set; }
 
         [Range(0, 6, ErrorMessage = "Day of Week must be between 0 and 6")]
         public int DayOfWeek { get; set; }

@@ -24,7 +24,7 @@ namespace CMSLibraryData.DBModels
         public string Gender { get; set; }
 
         [Required, Display(Name = "Library Card")]
-        public LibraryCard LibraryCard { get; set; }
-        public LibraryBranch HomeLibraryBranch { get; set; }
+        public CMSLibraryCard LibraryCard { get; set; }
+        public CMSLibraryBranch HomeLibraryBranch { get; set; }
     }
 }

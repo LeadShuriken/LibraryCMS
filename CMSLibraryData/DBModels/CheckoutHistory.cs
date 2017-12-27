@@ -8,10 +8,10 @@ namespace CMSLibraryData.DBModels
         public int Id { get; set; }
 
         [Required]
-        public LibraryAsset LibraryAsset { get; set; }
+        public CMSLibraryAsset LibraryAsset { get; set; }
 
         [Required]
-        public LibraryCard LibraryCard { get; set; }
+        public CMSLibraryCard LibraryCard { get; set; }
 
         [Required]
         public DateTime CheckedOut { get; set; }

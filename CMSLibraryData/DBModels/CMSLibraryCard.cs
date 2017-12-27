@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMSLibraryData.DBModels
 {
-    public class LibraryCard
+    public class CMSLibraryCard
     {
         public int Id { get; set; }
 
