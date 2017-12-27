@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using CMSLibraryData;
+using CMSLibraryServices;
 
 namespace F84396_LibraryCMS
 {
@@ -20,7 +21,8 @@ namespace F84396_LibraryCMS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            services.AddSingleton(Configuration);
+            services.AddScoped<ICMSLibraryAsset, CMSLibraryAssetService>();
             services.AddDbContext<CMSLibraryContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("CMSLibraryConnection")));
         }

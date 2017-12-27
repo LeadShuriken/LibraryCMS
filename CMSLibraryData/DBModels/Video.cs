@@ -7,8 +7,5 @@ namespace CMSLibraryData.DBModels
     {
         [Required]
         public string Director { get; set; }
-
-        [Display(Name = "Publish Date")]
-        public DateTime PublishDate { get; set; }
     }
 }

@@ -6,9 +6,6 @@ namespace CMSLibraryData.DBModels
     public class NewsPaper : CMSLibraryAsset
     {
         [Required]
-        public string Name { get; set; }
-
-        [Display(Name = "Publish Date")]
-        public DateTime PublishDate { get; set; }
+        public string Publisher { get; set; }
     }
 }

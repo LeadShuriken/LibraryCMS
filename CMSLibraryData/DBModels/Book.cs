@@ -12,7 +12,7 @@ namespace CMSLibraryData.DBModels
         public string Author { get; set; }
 
         [Required]
-        [Display(Name = "DDC")]
-        public string DeweyIndex { get; set; }
+        [Display(Name = "Index")]
+        public string Index { get; set; }
     }
 }

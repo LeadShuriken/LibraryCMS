@@ -12,8 +12,8 @@ using System;
 namespace CMSLibraryData.Migrations
 {
     [DbContext(typeof(CMSLibraryContext))]
-    [Migration("20171227162249_Initial Entity Models")]
-    partial class InitialEntityModels
+    [Migration("20171227215351_Second")]
+    partial class Second
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -115,6 +115,9 @@ namespace CMSLibraryData.Migrations
                     b.Property<int?>("LocationId");
 
                     b.Property<int>("NumberOfCopies");
+
+                    b.Property<DateTime>("PublishDate")
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<int>("StatusId");
 
@@ -252,10 +255,10 @@ namespace CMSLibraryData.Migrations
                     b.Property<string>("Author")
                         .IsRequired();
 
-                    b.Property<string>("DeweyIndex")
+                    b.Property<string>("ISBN")
                         .IsRequired();
 
-                    b.Property<string>("ISBN")
+                    b.Property<string>("Index")
                         .IsRequired();
 
                     b.ToTable("Book");
@@ -267,10 +270,8 @@ namespace CMSLibraryData.Migrations
                 {
                     b.HasBaseType("CMSLibraryData.DBModels.CMSLibraryAsset");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Agency")
                         .IsRequired();
-
-                    b.Property<DateTime>("PublishDate");
 
                     b.ToTable("Magazine");
 
@@ -281,12 +282,8 @@ namespace CMSLibraryData.Migrations
                 {
                     b.HasBaseType("CMSLibraryData.DBModels.CMSLibraryAsset");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("NewsPaper_Name");
-
-                    b.Property<DateTime>("PublishDate")
-                        .HasColumnName("NewsPaper_PublishDate");
+                    b.Property<string>("Publisher")
+                        .IsRequired();
 
                     b.ToTable("NewsPaper");
 
@@ -299,9 +296,6 @@ namespace CMSLibraryData.Migrations
 
                     b.Property<string>("Director")
                         .IsRequired();
-
-                    b.Property<DateTime>("PublishDate")
-                        .HasColumnName("Video_PublishDate");
 
                     b.ToTable("Video");
 

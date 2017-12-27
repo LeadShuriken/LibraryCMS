@@ -5,48 +5,10 @@ using System.Collections.Generic;
 
 namespace CMSLibraryData.Migrations
 {
-    public partial class InitialEntityModels : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Adress",
-                table: "Subscribers",
-                newName: "Gender");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "LastName",
-                table: "Subscribers",
-                maxLength: 30,
-                nullable: false,
-                oldClrType: typeof(string),
-                oldNullable: true);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "FirstName",
-                table: "Subscribers",
-                maxLength: 30,
-                nullable: false,
-                oldClrType: typeof(string),
-                oldNullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Address",
-                table: "Subscribers",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<int>(
-                name: "HomeLibraryBranchId",
-                table: "Subscribers",
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "LibraryCardId",
-                table: "Subscribers",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateTable(
                 name: "AssetType",
                 columns: table => new
@@ -130,12 +92,44 @@ namespace CMSLibraryData.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Subscribers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Address = table.Column<string>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    FirstName = table.Column<string>(maxLength: 30, nullable: false),
+                    Gender = table.Column<string>(nullable: true),
+                    HomeLibraryBranchId = table.Column<int>(nullable: true),
+                    LastName = table.Column<string>(maxLength: 30, nullable: false),
+                    LibraryCardId = table.Column<int>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscribers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subscribers_CMSLibraryBranch_HomeLibraryBranchId",
+                        column: x => x.HomeLibraryBranchId,
+                        principalTable: "CMSLibraryBranch",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Subscribers_CMSLibraryCard_LibraryCardId",
+                        column: x => x.LibraryCardId,
+                        principalTable: "CMSLibraryCard",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CMSLibraryAsset",
                 columns: table => new
                 {
                     Author = table.Column<string>(nullable: true),
-                    DeweyIndex = table.Column<string>(nullable: true),
                     ISBN = table.Column<string>(nullable: true),
+                    Index = table.Column<string>(nullable: true),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Cost = table.Column<decimal>(nullable: false),
@@ -143,15 +137,13 @@ namespace CMSLibraryData.Migrations
                     ImageUrl = table.Column<string>(nullable: true),
                     LocationId = table.Column<int>(nullable: true),
                     NumberOfCopies = table.Column<int>(nullable: false),
+                    PublishDate = table.Column<DateTime>(nullable: false),
                     StatusId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     Year = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    PublishDate = table.Column<DateTime>(nullable: true),
-                    NewsPaper_Name = table.Column<string>(nullable: true),
-                    NewsPaper_PublishDate = table.Column<DateTime>(nullable: true),
-                    Director = table.Column<string>(nullable: true),
-                    Video_PublishDate = table.Column<DateTime>(nullable: true)
+                    Agency = table.Column<string>(nullable: true),
+                    Publisher = table.Column<string>(nullable: true),
+                    Director = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -254,16 +246,6 @@ namespace CMSLibraryData.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subscribers_HomeLibraryBranchId",
-                table: "Subscribers",
-                column: "HomeLibraryBranchId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Subscribers_LibraryCardId",
-                table: "Subscribers",
-                column: "LibraryCardId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BranchHours_BranchId",
                 table: "BranchHours",
                 column: "BranchId");
@@ -308,33 +290,19 @@ namespace CMSLibraryData.Migrations
                 table: "Hold",
                 column: "LibraryCardId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Subscribers_CMSLibraryBranch_HomeLibraryBranchId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Subscribers_HomeLibraryBranchId",
                 table: "Subscribers",
-                column: "HomeLibraryBranchId",
-                principalTable: "CMSLibraryBranch",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                column: "HomeLibraryBranchId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Subscribers_CMSLibraryCard_LibraryCardId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Subscribers_LibraryCardId",
                 table: "Subscribers",
-                column: "LibraryCardId",
-                principalTable: "CMSLibraryCard",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "LibraryCardId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Subscribers_CMSLibraryBranch_HomeLibraryBranchId",
-                table: "Subscribers");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Subscribers_CMSLibraryCard_LibraryCardId",
-                table: "Subscribers");
-
             migrationBuilder.DropTable(
                 name: "AssetType");
 
@@ -351,6 +319,9 @@ namespace CMSLibraryData.Migrations
                 name: "Hold");
 
             migrationBuilder.DropTable(
+                name: "Subscribers");
+
+            migrationBuilder.DropTable(
                 name: "CMSLibraryAsset");
 
             migrationBuilder.DropTable(
@@ -361,45 +332,6 @@ namespace CMSLibraryData.Migrations
 
             migrationBuilder.DropTable(
                 name: "Status");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Subscribers_HomeLibraryBranchId",
-                table: "Subscribers");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Subscribers_LibraryCardId",
-                table: "Subscribers");
-
-            migrationBuilder.DropColumn(
-                name: "Address",
-                table: "Subscribers");
-
-            migrationBuilder.DropColumn(
-                name: "HomeLibraryBranchId",
-                table: "Subscribers");
-
-            migrationBuilder.DropColumn(
-                name: "LibraryCardId",
-                table: "Subscribers");
-
-            migrationBuilder.RenameColumn(
-                name: "Gender",
-                table: "Subscribers",
-                newName: "Adress");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "LastName",
-                table: "Subscribers",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldMaxLength: 30);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "FirstName",
-                table: "Subscribers",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldMaxLength: 30);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMSLibraryData.DBModels
 {
@@ -12,6 +13,10 @@ namespace CMSLibraryData.DBModels
 
         [Required]
         public int Year { get; set; } // Just store as an int for BC
+
+        [Display(Name = "Publish Date")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime? PublishDate { get; set; }
 
         [Required]
         public Status Status { get; set; }

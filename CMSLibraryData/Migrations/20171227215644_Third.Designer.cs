@@ -12,9 +12,10 @@ using System;
 namespace CMSLibraryData.Migrations
 {
     [DbContext(typeof(CMSLibraryContext))]
-    partial class CMSLibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20171227215644_Third")]
+    partial class Third
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,8 +116,8 @@ namespace CMSLibraryData.Migrations
 
                     b.Property<int>("NumberOfCopies");
 
-                    b.Property<DateTime?>("PublishDate")
-                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("PublishDate")
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<int>("StatusId");
 
