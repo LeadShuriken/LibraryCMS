@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using CMSLibraryData;
 
 namespace F84396_LibraryCMS
 {
@@ -22,6 +20,9 @@ namespace F84396_LibraryCMS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddDbContext<CMSLibraryContext>(options 
+                => options.UseSqlServer(Configuration.GetConnectionString("CMSLibraryConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
