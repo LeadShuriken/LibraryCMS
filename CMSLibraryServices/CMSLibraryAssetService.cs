@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using CMSLibraryData;
+﻿using CMSLibraryData;
 using CMSLibraryData.DBModels;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CMSLibraryServices
 {
-    public class CMSLibraryAssetService : ICMSLibraryAsset
+    public class CMSLibraryAssetService : AssetsBase, ICMSLibraryAsset
     {
         private CMSLibraryContext _context;
 
         public CMSLibraryAssetService(CMSLibraryContext context)
+            : base(context)
         {
             _context = context;
         }
@@ -62,30 +62,8 @@ namespace CMSLibraryServices
         {
             return GetById(id).Title;
         }
-
-        public string GetType(int id)
-        {
-            DbSet<CMSLibraryAsset> assets = _context.CMSLibraryAsset;
-            if (assets.OfType<Book>().Where(asset => asset.Id == id).Any())
-            {
-                return "Book";
-            }
-            else if (assets.OfType<Video>().Where(asset => asset.Id == id).Any())
-            {
-                return "Video";
-            }
-            else if (assets.OfType<Magazine>().Where(asset => asset.Id == id).Any())
-            {
-                return "Magazine";
-            }
-            else if (assets.OfType<NewsPaper>().Where(asset => asset.Id == id).Any())
-            {
-                return "Newspaper";
-            }
-            return "Unknown";
-        }
         
-        public string GetAuthorOrDirectorOrPublisher(int id)
+        public string GetSource(int id)
         {   
             switch (GetType(id))
             {

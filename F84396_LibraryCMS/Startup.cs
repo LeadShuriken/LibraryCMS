@@ -22,7 +22,9 @@ namespace F84396_LibraryCMS
         {
             services.AddMvc();
             services.AddSingleton(Configuration);
+            services.AddScoped<ICheckout, CheckoutService>();
             services.AddScoped<ICMSLibraryAsset, CMSLibraryAssetService>();
+            
             services.AddDbContext<CMSLibraryContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("CMSLibraryConnection")));
         }

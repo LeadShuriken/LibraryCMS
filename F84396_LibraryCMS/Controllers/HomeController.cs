@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using F84396_LibraryCMS.Models;
 using Microsoft.AspNetCore.Mvc;
-using F84396_LibraryCMS.Models;
+using System.Diagnostics;
 
 namespace F84396_LibraryCMS.Controllers
 {
@@ -12,20 +8,6 @@ namespace F84396_LibraryCMS.Controllers
     {
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 

@@ -1,13 +1,14 @@
 ﻿@model F84396_LibraryCMS.Models.Catalog.CMSAssetIndexModel
 <div id="assets">
-    <h3>Library Catalog</h3>
+    <h2 class="text-muted">Library Catalog</h2>
     <div id="assetsTable">
         <table class="table table-condensed" id="catalogIndexTable">
             <thead>
                 <tr>
                     <th>Image</th>
+                    <th>Type</th>
                     <th>Title</th>
-                    <th>Author / Director / Publisher</th>
+                    <th>Source</th>
                     <th>Index</th>
                 </tr>
             </thead>
@@ -22,8 +23,9 @@
                                 </a>
                             </div>
                         </td>
+                        <td class="">@asset.Type</td>
                         <td class="">@asset.Title</td>
-                        <td class="">@asset.AuthorOrDirectorOrPublisher</td>
+                        <td class="">@asset.Source</td>
                         <td class="">@asset.Index</td>
                     </tr>
                 }
@@ -33,7 +35,6 @@
 </div>
 @section Styles {
     <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="http://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
 }
 @section Scripts {
