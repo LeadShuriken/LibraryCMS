@@ -39,7 +39,7 @@ namespace F84396_LibraryCMS.Controllers
             return View(model);
         }
 
-        public IActionResult Detail(int id)
+        public IActionResult Detail(int id, string messege)
         {
             CMSLibraryData.DBModels.CMSLibraryAsset asset = _assets.GetById(id);
 
@@ -65,6 +65,10 @@ namespace F84396_LibraryCMS.Controllers
                     SubscriberName = _checkouts.GetCurrentHoldSubscriberName(a.Id)
                 })
             };
+
+            if (messege != null) {
+                model.Warning = new AssetWarning { Messege = messege };
+            }
 
             return View(model);
         }
@@ -130,8 +134,8 @@ namespace F84396_LibraryCMS.Controllers
         [HttpPost]
         public IActionResult PlaceHold(int assetId, int libraryCardId)
         {
-            _checkouts.PlaceHold(assetId, libraryCardId);
-            return RedirectToAction("Detail", new { id = assetId });
+            string info = _checkouts.PlaceHold(assetId, libraryCardId);
+            return RedirectToAction("Detail", new { id = assetId , messege = info});
         }
     }
 }

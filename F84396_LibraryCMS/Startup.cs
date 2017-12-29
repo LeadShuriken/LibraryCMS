@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using CMSLibraryData;
 using CMSLibraryServices;
+using CMSLibraryData;
 
 namespace F84396_LibraryCMS
 {
@@ -25,7 +25,6 @@ namespace F84396_LibraryCMS
             services.AddScoped<ICheckout, CheckoutService>();
             services.AddScoped<ICMSLibraryAsset, CMSLibraryAssetService>();
             services.AddScoped<ISubscriber, SubscribersService>();
-
             services.AddDbContext<CMSLibraryContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("CMSLibraryConnection")));
         }

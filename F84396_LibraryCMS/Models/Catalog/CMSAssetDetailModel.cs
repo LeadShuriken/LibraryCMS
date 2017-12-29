@@ -19,6 +19,7 @@ namespace F84396_LibraryCMS.Models.Catalog
         public string ImageUrl { get; set; }
         public string SubscriberName { get; set; }
         public Checkout LatestCheckout { get; set; }
+        public AssetWarning Warning { get; set; }
 
         public IEnumerable<CheckoutHistory> CheckoutHistory { get; set; }
         public IEnumerable<AssetHoldModel> CurrentHolds { get; set; }
@@ -28,5 +29,10 @@ namespace F84396_LibraryCMS.Models.Catalog
     {
         public string SubscriberName { get; set; }
         public DateTime HoldPlaced { get; set; }
+    }
+
+    public class AssetWarning
+    {
+        public string Messege { get; set; }
     }
 }

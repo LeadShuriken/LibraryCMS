@@ -3,7 +3,20 @@
     ViewBag.Title = @Model.Title;
 }
 
+@section Scripts {
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+}
+
 <div class="container">
+    @if (@Model.Warning != null)
+    {
+        <div class="alert alert-danger alert-dismissable fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Take Notice! </strong> @Model.Warning.Messege
+        </div>
+    }
     <div class="header clearfix detailHeading">
         <h2 class="text-muted">View Library Item</h2>
     </div>
@@ -20,7 +33,7 @@
                 <p id="itemStatus">Status: @Model.Status</p>
                 <p id="itemType">Type: @Model.Type</p>
                 <p id="itemLocation">Last Location: @Model.CurrentLocation</p>
-                @if (Model.Status == "Checked Out")
+                @if (@Model.Status == "Checked Out")
                 {
                     <p id="itemSubscriber">Checked Out By: @Model.SubscriberName</p>
                 }
@@ -39,7 +52,6 @@
 
                     <p><a class="btn btn-lg btn-danger" role="button" asp-controller="Catalog" asp-action="MarkLost" asp-route-id="@Model.AssetId">Mark Item Lost</a></p>
                 }
-
                 else
                 {
                     <p>This item has been lost. It cannot be checked out.</p>

@@ -65,7 +65,6 @@ namespace CMSLibraryServices
             };
 
             _context.Add(checkout);
-            var b = _context.GetType();
 
             CheckoutHistory checkoutHistory = new CheckoutHistory
             {
@@ -131,7 +130,7 @@ namespace CMSLibraryServices
             }
         }
 
-        public void PlaceHold(int assetId, int libraryCardId)
+        public string PlaceHold(int assetId, int libraryCardId)
         {
             DateTime now = DateTime.Now;
 
@@ -144,11 +143,17 @@ namespace CMSLibraryServices
 
             IEnumerable<Hold> currentHolds = GetCurrentHolds(assetId);
             Checkout currentCheckout = GetLatestCheckout(assetId);
-            if (libraryCard == null // invalid card
-                || currentCheckout.LibraryCard.Id == libraryCardId // checkouter wants to hold
-                || currentHolds.Any(a => a.LibraryCard.Id == libraryCardId)) // second hold in queue
+            if (libraryCard == null)
             {
-                return;
+                return "Invalid card!";
+            }
+            else if (currentCheckout.LibraryCard.Id == libraryCardId)
+            {
+                return "You cannot place a hold on an item which you have checked out!";
+            }
+            else if (currentHolds.Any(a => a.LibraryCard.Id == libraryCardId))
+            {
+                return "You have allready placed a hold on that item!";
             }
 
             _context.Update(asset);
@@ -167,6 +172,7 @@ namespace CMSLibraryServices
 
             _context.Add(hold);
             _context.SaveChanges();
+            return asset.Title + " placed on hold!";
         }
 
         public void CheckInItem(int assetId)

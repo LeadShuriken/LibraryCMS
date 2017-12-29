@@ -17,7 +17,7 @@ namespace CMSLibraryData
 
         void MarkLost(int id);
         void MarkFound(int id);
-        void PlaceHold(int assetId, int libraryCardId);
+
         void CheckoutItem(int assetId, int libraryCardId);
         void CheckInItem(int assetId);
         void RemoveChekoutHistory(int assetId);
@@ -27,6 +27,7 @@ namespace CMSLibraryData
         bool IsCheckedOut(int id);
 
         DateTime GetCurrentHoldPlaced(int id);
+        string PlaceHold(int assetId, int libraryCardId);
         string GetCurrentCheckoutSubscriberName(int id);
         string GetCurrentHoldSubscriberName(int id);
     }
