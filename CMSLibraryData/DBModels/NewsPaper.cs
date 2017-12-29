@@ -2,6 +2,9 @@
 
 namespace CMSLibraryData.DBModels
 {
+    /// <summary>
+    /// DB Entity of the CMSLibraryAsset::NewsPaper
+    /// </summary>
     public class NewsPaper : CMSLibraryAsset
     {
         [Required]

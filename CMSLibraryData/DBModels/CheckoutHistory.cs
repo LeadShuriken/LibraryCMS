@@ -3,6 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMSLibraryData.DBModels
 {
+    /// <summary>
+    /// DB Entity CheckoutHistory
+    /// Spesifies the relation between a CMSLibraryAsset, CMSLibraryCard 
+    /// when an element passes through a checkout, this is persistant unlike Checkout
+    /// </summary>
     public class CheckoutHistory
     {
         public int Id { get; set; }

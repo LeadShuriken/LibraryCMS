@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+/// <summary>
+/// DB Entity CMSLibraryCard 
+/// Creating the relationship between a Subscriber 
+/// Checkout, CheckoutHistory and Hold
+/// </summary>
 namespace CMSLibraryData.DBModels
 {
     public class CMSLibraryCard

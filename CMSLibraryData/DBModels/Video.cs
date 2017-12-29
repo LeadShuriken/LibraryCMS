@@ -2,6 +2,9 @@
 
 namespace CMSLibraryData.DBModels
 {
+    /// <summary>
+    /// DB Entity of the CMSLibraryAsset::Video
+    /// </summary>
     public class Video : CMSLibraryAsset
     {
         [Required]

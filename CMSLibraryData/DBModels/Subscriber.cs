@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMSLibraryData.DBModels
 {
+    /// <summary>
+    /// DB Entity Subscriber
+    /// </summary>
     public class Subscriber
     {
         public int Id { get; set; }

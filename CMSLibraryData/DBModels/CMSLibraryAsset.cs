@@ -4,6 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMSLibraryData.DBModels
 {
+    /// <summary>
+    /// DB Entity CMSLibraryAsset 
+    /// Asset has a discriminator servers the Table per Hierarchy (TPH) migration strategy
+    /// this property makes the assets aider a Magazine, Book, Video, Newspaper.
+    /// The asset is situated in a spesific library branch and has a spesific 
+    /// Status, CheckoutHistories and is linked to a Checkout or a Hold if aider.
+    /// </summary>
     public abstract class CMSLibraryAsset
     {
         public int Id { get; set; }

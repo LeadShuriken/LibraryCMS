@@ -3,6 +3,9 @@ using CMSLibraryData.DBModels;
 
 namespace CMSLibraryData
 {
+    /// <summary>
+    /// Context for the SQL database
+    /// </summary>
     public class CMSLibraryContext : DbContext
     {
         public CMSLibraryContext(DbContextOptions options) : base(options) { }
@@ -15,7 +18,6 @@ namespace CMSLibraryData
         public DbSet<CMSLibraryAsset> CMSLibraryAsset { get; set; }
         public DbSet<CMSLibraryBranch> CMSLibraryBranch { get; set; }
         public DbSet<Status> Status { get; set; }
-        public DbSet<AssetType> AssetType { get; set; }
         public DbSet<Book> Book { get; set; }
         public DbSet<BranchHours> BranchHours { get; set; }
         public DbSet<Magazine> Magazine { get; set; }

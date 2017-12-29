@@ -4,6 +4,9 @@ using System;
 
 namespace CMSLibraryData
 {
+    /// <summary>
+    /// ICheckout: spesifying the service methods to be used on chekout
+    /// </summary>
     public interface ICheckout : IAssetsBase
     {
         void Add(Checkout newCheckout);

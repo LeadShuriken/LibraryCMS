@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace CMSLibraryData
 {
+    /// <summary>
+    /// ISubscriber: spesifying methods, props used by the subscriber
+    /// </summary>
     public interface ISubscriber
     {
         Subscriber Get(int Id);

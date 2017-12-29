@@ -12,9 +12,10 @@ using System;
 namespace CMSLibraryData.Migrations
 {
     [DbContext(typeof(CMSLibraryContext))]
-    partial class CMSLibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20171229152356_AssetTypeRemoved")]
+    partial class AssetTypeRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

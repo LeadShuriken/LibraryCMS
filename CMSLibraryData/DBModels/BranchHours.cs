@@ -2,6 +2,11 @@
 
 namespace CMSLibraryData.DBModels
 {
+    /// <summary>
+    /// DB Entity BranchHours
+    /// Spesifies a branch hours for the CMSLibraryBranch
+    /// TODO: Not implemented
+    /// </summary>
     public class BranchHours
     {
         public int Id { get; set; }

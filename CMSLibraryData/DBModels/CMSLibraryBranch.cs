@@ -4,6 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMSLibraryData.DBModels
 {
+    /// <summary>
+    /// DB Entity CMSLibraryBranch 
+    /// Spesifying the location of a CMSLibraryAsset and
+    /// relating to the address of the Subscriber (HomeLibraryBranchId)
+    /// </summary>
     public class CMSLibraryBranch
     {
         public int Id { get; set; }
