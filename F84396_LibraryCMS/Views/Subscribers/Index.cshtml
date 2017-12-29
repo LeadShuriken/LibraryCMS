@@ -1,0 +1,32 @@
+﻿@model F84396_LibraryCMS.Models.Subscribers.SubscribersIndexModel
+@{
+    ViewBag.Title = "Subscriber Index";
+}
+<h3>@ViewBag.Title</h3>
+<div id="subscriberIndex">
+    <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp customTable" id="subscriberIndexTable">
+        <thead>
+            <tr>
+                <th>Profile Link</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Library Card Id</th>
+                <th>Overdue Fees</th>
+                <th>Home Library</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sub in Model.Subscribers)
+            {
+                <tr>
+                    <td id="subIcon"><a asp-controller="Subscribers" asp-action="Detail" asp-route-id="@sub.Id"><i class="fa fa-user fa-2x"></i></a></td>
+                    <td>@sub.LastName</td>
+                    <td>@sub.FirstName</td>
+                    <td>@sub.LibraryCardId</td>
+                    <td>@sub.OverdueFees</td>
+                    <td>@sub.HomeLibrary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

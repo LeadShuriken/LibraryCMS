@@ -22,7 +22,7 @@
                 <p id="itemLocation">Last Location: @Model.CurrentLocation</p>
                 @if (Model.Status == "Checked Out")
                 {
-                    <p id="itemPatron">Checked Out By: @Model.SubscriberName</p>
+                    <p id="itemSubscriber">Checked Out By: @Model.SubscriberName</p>
                 }
                 @if (@Model.Status != "Lost")
                 {
@@ -99,7 +99,7 @@
                 <thead>
                     <tr>
                         <th>Hold Placed</th>
-                        <th>Patron</th>
+                        <th>Subscriber</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,0 +1,83 @@
+﻿@model F84396_LibraryCMS.Models.Subscribers.SubscribersDetailModel
+@{
+    ViewBag.Title = @Model.LastName + ", " + @Model.FirstName;
+}
+
+<div class="container">
+    <div class="header clearfix detailHeading">
+        <h2 class="text-muted">Subscriber Information</h2>
+    </div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                    <h2>@Model.FirstName @Model.LastName</h2>
+                    <div class="subscriberContact">
+                        <div>Library Card ID: @Model.LibraryCardId</div>
+                        <div>Address: @Model.Address</div>
+                        <div>Telephone: @Model.Telephone</div>
+                        <div>Member Since: @Model.MemberSince</div>
+                        <div>Home Library: @Model.HomeLibrary</div>
+                        @if (@Model.OverdueFees > 0)
+                        {
+                            <div id="subscriberHasFees">Current Fees Due: $@Model.OverdueFees</div>
+                        }
+                        else
+                        {
+                            <div id="subscriberNoFees">No Fees Currently Due.</div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h4>Assets Currently Checked Out</h4>
+                @if (@Model.AssetsCheckedOut.Any())
+                {
+                    <div id="subscriberAssets">
+                        <ul>
+                            @foreach (var checkout in @Model.AssetsCheckedOut)
+                            {
+                                <li>
+                                    @checkout.LibraryAsset.Title - (Library Asset ID: @checkout.LibraryAsset.Id)
+                                    <ul>
+                                        <li>
+                                            Since: @checkout.Since
+                                        </li>
+                                        <li>
+                                            Due: @checkout.Until
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div>No items currently checked out.</div>
+
+                }
+            </div>
+
+            <div class="col-md-4">
+                <h4>Assets Currently On Hold</h4>
+                @if (@Model.Holds.Any())
+                {
+                    <div id="subscriberHolds">
+                        <ul>
+                            @foreach (var hold in @Model.Holds)
+                            {
+                                <li>@hold.LibraryAsset.Title - Placed @hold.HoldPlaced.ToString("yy-dd-MM - HH:mm")</li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div>No items on hold.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

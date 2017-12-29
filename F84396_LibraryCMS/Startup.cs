@@ -24,7 +24,8 @@ namespace F84396_LibraryCMS
             services.AddSingleton(Configuration);
             services.AddScoped<ICheckout, CheckoutService>();
             services.AddScoped<ICMSLibraryAsset, CMSLibraryAssetService>();
-            
+            services.AddScoped<ISubscriber, SubscribersService>();
+
             services.AddDbContext<CMSLibraryContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("CMSLibraryConnection")));
         }

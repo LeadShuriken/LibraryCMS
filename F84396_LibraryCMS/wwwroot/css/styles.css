@@ -83,8 +83,8 @@
     background-color: #eee;
 }
 
-#patrons{
-    background: url('/images/patron.jpeg') bottom left 15% no-repeat #555;
+#subscriber {
+    background: url('/images/patron1.jpeg') bottom 35% right 35% no-repeat #555;
 }
 
 .branchInfo{
@@ -192,12 +192,12 @@
     font-size: 1.2em;
 }
 
-#patronHasFees{
+#subscriberHasFees{
     color: #c62222;
     font-weight: bold;
 }
 
-#patronNoFees{
+#subscriberNoFees {
     color: #2f6fc7;
     font-weight: bold;
 }
