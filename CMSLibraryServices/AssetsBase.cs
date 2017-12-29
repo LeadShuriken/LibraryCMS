@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace CMSLibraryServices
 {
+    /// <summary>
+    /// AssetsBasse: utility class implementing methods to be used across services
+    /// </summary>
     public class AssetsBase : IAssetsBase
     {
         private CMSLibraryContext _context;
@@ -14,6 +17,12 @@ namespace CMSLibraryServices
             _context = context;
         }
 
+        /// <summary>
+        /// Returns the type of the asset aka":
+        /// Book, Magazine, Newspaper, Video
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string GetType(int id)
         {
             DbSet<CMSLibraryAsset> assets = _context.CMSLibraryAsset;
@@ -34,6 +43,26 @@ namespace CMSLibraryServices
                 return "Newspaper";
             }
             return "Unknown";
+        }
+
+        /// <summary>
+        /// Returns the Status Flags for the asset
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string GetAssetStatus(int id)
+        {
+            return _context.CMSLibraryAsset.Include(a => a.Status).FirstOrDefault(a => a.Id == id).Status.Name;
+        }
+
+        /// <summary>
+        /// Checks to see if the status of the entry is "Checked Out"
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool IsCheckedOut(int id)
+        {
+            return _context.CMSLibraryAsset.Include(a => a.Status).FirstOrDefault(a => a.Id == id).Status.Name == "Checked Out";
         }
     }
 }

@@ -15,13 +15,12 @@ namespace CMSLibraryServices
             _context = context;
         }
 
-        public void Add(Subscriber newSubscriber)
-        {
-            _context.Add(newSubscriber);
-            _context.SaveChanges();
-        }
-
-        public Subscriber Get(int id)
+        /// <summary>
+        /// Returns a subscriber by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Subscriber GetSubscriber(int id)
         {
             return _context.Subscribers
                 .Include(a => a.LibraryCard)
@@ -29,13 +28,22 @@ namespace CMSLibraryServices
                 .FirstOrDefault(p => p.Id == id);
         }
 
-        public IEnumerable<Subscriber> GetAll()
+        /// <summary>
+        /// Returns all subscribers
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Subscriber> GetAllSubscribers()
         {
             return _context.Subscribers
                 .Include(a=>a.LibraryCard)
                 .Include(a=>a.HomeLibraryBranch);
         }
 
+        /// <summary>
+        /// Returns the checkout history for a subscriber by looking up his card id
+        /// </summary>
+        /// <param name="subscriberId"></param>
+        /// <returns></returns>
         public IEnumerable<CheckoutHistory> GetCheckoutHistory(int subscriberId)
         {
             int cardId = _context.Subscribers
@@ -50,14 +58,24 @@ namespace CMSLibraryServices
                 .OrderByDescending(a=>a.CheckedOut);
         }
 
+        /// <summary>
+        /// Returns the checkouts that the subscriber has made
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IEnumerable<Checkout> GetCheckouts(int id)
         {
             return _context.Checkout
                 .Include(a => a.LibraryCard)
                 .Include(a => a.LibraryAsset)
-                .Where(v => v.LibraryCard.Id == Get(id).LibraryCard.Id);
+                .Where(v => v.LibraryCard.Id == GetSubscriber(id).LibraryCard.Id);
         }
 
+        /// <summary>
+        /// Returns the holds of the subscriber
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public IEnumerable<Hold> GetHolds(int Id)
         {
             int cardId = _context.Subscribers

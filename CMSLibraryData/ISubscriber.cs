@@ -8,10 +8,9 @@ namespace CMSLibraryData
     /// </summary>
     public interface ISubscriber
     {
-        Subscriber Get(int Id);
-        void Add(Subscriber newBook);
+        Subscriber GetSubscriber(int Id);
 
-        IEnumerable<Subscriber> GetAll();
+        IEnumerable<Subscriber> GetAllSubscribers();
         IEnumerable<CheckoutHistory> GetCheckoutHistory(int Id);
         IEnumerable<Hold> GetHolds(int Id);
         IEnumerable<Checkout> GetCheckouts(int Id);

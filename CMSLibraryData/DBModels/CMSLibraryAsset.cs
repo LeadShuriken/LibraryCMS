@@ -16,6 +16,10 @@ namespace CMSLibraryData.DBModels
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Index")]
+        public string Index { get; set; }
+
+        [Required]
         public string Title { get; set; }
 
         [Required]
@@ -32,7 +36,6 @@ namespace CMSLibraryData.DBModels
         public decimal Cost { get; set; }
 
         public string ImageUrl { get; set; }
-        
         public int NumberOfCopies { get; set; }
 
         public virtual CMSLibraryBranch Location { get; set; }

@@ -9,8 +9,6 @@ namespace CMSLibraryData
     /// </summary>
     public interface ICheckout : IAssetsBase
     {
-        void Add(Checkout newCheckout);
-
         IEnumerable<Checkout> GetAll();
         IEnumerable<Hold> GetCurrentHolds(int id);
         IEnumerable<CheckoutHistory> GetCheckoutHistory(int id);
@@ -21,15 +19,15 @@ namespace CMSLibraryData
         void MarkLost(int id);
         void MarkFound(int id);
 
-        void CheckoutItem(int assetId, int libraryCardId);
+        string CheckoutItem(int assetId, int libraryCardId);
         void CheckInItem(int assetId);
         void RemoveChekoutHistory(int assetId);
+        void RemoveHolds(int assetId);
 
         int GetNumberOfCopies(int id);
         int GetAvailableCopies(int id);
-        bool IsCheckedOut(int id);
 
-        DateTime GetCurrentHoldPlaced(int id);
+        DateTime GetCurrentHoldPlacedTime(int id);
         string PlaceHold(int assetId, int libraryCardId);
         string GetCurrentCheckoutSubscriberName(int id);
         string GetCurrentHoldSubscriberName(int id);

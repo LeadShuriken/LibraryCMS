@@ -7,37 +7,46 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CMSLibraryServices
 {
+    /// <summary>
+    /// CheckoutServices
+    /// </summary>
     public class CheckoutService : AssetsBase , ICheckout
     {
         private CMSLibraryContext _context;
 
         public CheckoutService(CMSLibraryContext context)
-             : base(context)
+             : base(context) // context passed to AssetsBasse
         {
             _context = context;
         }
 
-        public void Add(Checkout newCheckout)
-        {
-            _context.Add(newCheckout);
-            _context.SaveChanges();
-        }
-
+        /// <summary>
+        /// Getting a checkout by id
+        /// </summary>
+        /// <param name="id"></param>
         public Checkout Get(int id)
         {
             return _context.Checkout.FirstOrDefault(p => p.Id == id);
         }
 
+        /// <summary>
+        /// Getting all checkouts
+        /// </summary>
         public IEnumerable<Checkout> GetAll()
         {
             return _context.Checkout;
         }
 
-        public void CheckoutItem(int assetId, int libraryCardId)
+        /// <summary>
+        /// Checks out an CMSLibraryAsset to a library card id and fills the entry in history
+        /// </summary>
+        /// <param name="assetId"></param>
+        /// <param name="libraryCardId"></param>
+        public string CheckoutItem(int assetId, int libraryCardId)
         {
             if (IsCheckedOut(assetId))
             {
-                return;
+                return "Double Checked Out!"; // don't double checkout
             }
 
             DateTime now = DateTime.Now;
@@ -45,7 +54,7 @@ namespace CMSLibraryServices
                 .Include(a => a.Status)
                 .FirstOrDefault(a => a.Id == assetId);
 
-            UpdateStatus(assetId, "Checked Out");
+            UpdateStatus(assetId, "Checked Out"); // Changes the status of the asset
 
             CMSLibraryCard libraryCard = _context.CMSLibraryCard
                 .Include(c => c.Checkouts)
@@ -53,10 +62,10 @@ namespace CMSLibraryServices
 
             if (libraryCard == null)
             {
-                return;
+                return "Invalid card!"; // make sure the library card is valid
             }
 
-            Checkout checkout = new Checkout
+            Checkout checkout = new Checkout // creating the checkout
             {
                 LibraryAsset = item,
                 LibraryCard = libraryCard,
@@ -66,7 +75,7 @@ namespace CMSLibraryServices
 
             _context.Add(checkout);
 
-            CheckoutHistory checkoutHistory = new CheckoutHistory
+            CheckoutHistory checkoutHistory = new CheckoutHistory // creating the checkout history
             {
                 CheckedOut = now,
                 LibraryAsset = item,
@@ -75,25 +84,56 @@ namespace CMSLibraryServices
 
             _context.Add(checkoutHistory);
             _context.SaveChanges();
+            return null;
         }
 
+        /// <summary>
+        /// Removes all placed holds on the item
+        /// </summary>
+        /// <param name="assetId"></param>
+        public void RemoveHolds(int assetId)
+        {
+            IQueryable<Hold> currentHolds = _context.Hold
+                .Include(a => a.LibraryAsset)
+                .Include(a => a.LibraryCard)
+                .Where(a => a.LibraryAsset.Id == assetId);
+
+            if (currentHolds != null)
+            {
+                _context.RemoveRange(currentHolds);
+            }
+        }
+
+        /// <summary>
+        /// Marks asset as lost from the view
+        /// </summary>
+        /// <param name="assetId"></param>
         public void MarkLost(int assetId)
         {
-            UpdateStatus(assetId, "Lost");
-            _context.SaveChanges();
-        }
-
-        public void MarkFound(int assetId)
-        {
             DateTime now = DateTime.Now;
+            UpdateStatus(assetId, "Lost");
 
-            UpdateStatus(assetId, "Available");
+            RemoveHolds(assetId);
             RemoveExistingCheckout(assetId);
             CloseExistingCheckoutHistory(assetId, now);
-
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Marks asset as found from the view
+        /// </summary>
+        /// <param name="assetId"></param>
+        public void MarkFound(int assetId)
+        {
+            UpdateStatus(assetId, "Available");
+            _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Util method updating the Status of the asset
+        /// </summary>
+        /// <param name="assetId"></param>
+        /// <param name="v"></param>
         private void UpdateStatus(int assetId, string v)
         {
             CMSLibraryAsset item = _context.CMSLibraryAsset
@@ -102,6 +142,11 @@ namespace CMSLibraryServices
             item.Status = _context.Status.FirstOrDefault(a => a.Name == v);
         }
 
+        /// <summary>
+        /// Closes the element checkout history with the current time (checks in)
+        /// </summary>
+        /// <param name="assetId"></param>
+        /// <param name="now"></param>
         private void CloseExistingCheckoutHistory(int assetId, DateTime now)
         {
             // close any existing checkout history
@@ -117,6 +162,10 @@ namespace CMSLibraryServices
             }
         }
 
+        /// <summary>
+        /// Removes the existing checkouts
+        /// </summary>
+        /// <param name="assetId"></param>
         private void RemoveExistingCheckout(int assetId)
         {
             Checkout checkout = _context.Checkout
@@ -130,6 +179,12 @@ namespace CMSLibraryServices
             }
         }
 
+        /// <summary>
+        /// Places a Hold to the item linked to a card id and subscriber
+        /// </summary>
+        /// <param name="assetId"></param>
+        /// <param name="libraryCardId"></param>
+        /// <returns></returns>
         public string PlaceHold(int assetId, int libraryCardId)
         {
             DateTime now = DateTime.Now;
@@ -143,24 +198,17 @@ namespace CMSLibraryServices
 
             IEnumerable<Hold> currentHolds = GetCurrentHolds(assetId);
             Checkout currentCheckout = GetLatestCheckout(assetId);
-            if (libraryCard == null)
+            if (libraryCard == null) // when the card is not valid
             {
                 return "Invalid card!";
             }
-            else if (currentCheckout.LibraryCard.Id == libraryCardId)
+            else if (currentCheckout.LibraryCard.Id == libraryCardId) // when the checkouter is trying to place a hold
             {
                 return "You cannot place a hold on an item which you have checked out!";
             }
-            else if (currentHolds.Any(a => a.LibraryCard.Id == libraryCardId))
+            else if (currentHolds.Any(a => a.LibraryCard.Id == libraryCardId)) // when you are trying to place a second hold on an item
             {
                 return "You have allready placed a hold on that item!";
-            }
-
-            _context.Update(asset);
-
-            if (asset.Status.Name == "Available")
-            {
-                UpdateStatus(assetId, "On Hold");
             }
 
             Hold hold = new Hold
@@ -172,9 +220,13 @@ namespace CMSLibraryServices
 
             _context.Add(hold);
             _context.SaveChanges();
-            return asset.Title + " placed on hold!";
+            return null;
         }
 
+        /// <summary>
+        /// Checking in an item
+        /// </summary>
+        /// <param name="assetId"></param>
         public void CheckInItem(int assetId)
         {
             DateTime now = DateTime.Now;
@@ -206,6 +258,11 @@ namespace CMSLibraryServices
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Checking the item in to the earliest subscriber to have placed a hold
+        /// </summary>
+        /// <param name="assetId"></param>
+        /// <param name="currentHolds"></param>
         private void CheckoutToEarliestHold(int assetId, IEnumerable<Hold> currentHolds)
         {
             Hold earliestHold = currentHolds.OrderBy(a => a.HoldPlaced).FirstOrDefault();
@@ -216,6 +273,11 @@ namespace CMSLibraryServices
             CheckoutItem(assetId, card.Id);
         }
 
+        /// <summary>
+        /// Getting the checkout Histories for the item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IEnumerable<CheckoutHistory> GetCheckoutHistory(int id)
         {
             return _context.CheckoutHistory
@@ -224,6 +286,11 @@ namespace CMSLibraryServices
                 .Where(a => a.LibraryAsset.Id == id);
         }
 
+        /// <summary>
+        /// Getting the latest checkout
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Checkout GetLatestCheckout(int id)
         {
             return _context.Checkout
@@ -233,6 +300,11 @@ namespace CMSLibraryServices
                 .FirstOrDefault();
         }
 
+        /// <summary>
+        /// Returning the available copies
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public int GetAvailableCopies(int id)
         {
             int numberOfCopies = GetNumberOfCopies(id);
@@ -245,6 +317,12 @@ namespace CMSLibraryServices
             return numberOfCopies - numberCheckedOut;
         }
 
+        /// <summary>
+        /// Getting the number of copies
+        /// TODO: Implement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public int GetNumberOfCopies(int id)
         {
             return _context.CMSLibraryAsset
@@ -252,6 +330,13 @@ namespace CMSLibraryServices
                 .NumberOfCopies;
         }
 
+        /// <summary>
+        /// Setting the default checkout time
+        /// TODO: should be per item thus in the DB
+        /// </summary>
+        /// <param name="now"></param>
+        /// <param name="assetId"></param>
+        /// <returns></returns>
         private DateTime GetDefaultCheckoutTime(DateTime now, int assetId)
         {
             switch (GetType(assetId))
@@ -268,11 +353,11 @@ namespace CMSLibraryServices
             }
         }
 
-        public bool IsCheckedOut(int id)
-        {
-            return _context.Checkout.Where(a => a.LibraryAsset.Id == id).Any();
-        }
-
+        /// <summary>
+        /// TODO: Not implemented
+        /// </summary>
+        /// <param name="holdId"></param>
+        /// <returns></returns>
         public string GetCurrentHoldSubscriberName(int holdId)
         {
             var hold = _context.Hold
@@ -293,7 +378,12 @@ namespace CMSLibraryServices
             return subscriber?.FirstName + " " + subscriber?.LastName;
         }
 
-        public DateTime GetCurrentHoldPlaced(int holdId)
+        /// <summary>
+        /// Returns the time of the Hold in question
+        /// </summary>
+        /// <param name="holdId"></param>
+        /// <returns></returns>
+        public DateTime GetCurrentHoldPlacedTime(int holdId)
         {
             return _context.Hold
                 .Include(a => a.LibraryAsset)
@@ -302,6 +392,11 @@ namespace CMSLibraryServices
                 .HoldPlaced;
         }
 
+        /// <summary>
+        /// Returns all holds for the item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IEnumerable<Hold> GetCurrentHolds(int id)
         {
             return _context.Hold
@@ -310,6 +405,11 @@ namespace CMSLibraryServices
                 .Where(a => a.LibraryAsset.Id == id);
         }
 
+        /// <summary>
+        /// Gets the name of the subscriber who has checked out the item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string GetCurrentCheckoutSubscriberName(int id)
         {
             Checkout checkout = GetCheckoutByAssetId(id);
@@ -327,6 +427,11 @@ namespace CMSLibraryServices
             return subscriber?.FirstName + " " + subscriber?.LastName;
         }
 
+        /// <summary>
+        /// Returns the checkout placed for the asset
+        /// </summary>
+        /// <param name="assetId"></param>
+        /// <returns></returns>
         public Checkout GetCheckoutByAssetId(int assetId)
         {
             return _context.Checkout
@@ -336,6 +441,10 @@ namespace CMSLibraryServices
                 .FirstOrDefault();
         }
 
+        /// <summary>
+        /// Removes all the checkout history
+        /// </summary>
+        /// <param name="assetId"></param>
         public void RemoveChekoutHistory(int assetId)
         {
             _context.RemoveRange(GetCheckoutHistory(assetId));

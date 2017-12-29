@@ -13,9 +13,5 @@ namespace CMSLibraryData.DBModels
 
         [Required]
         public string Author { get; set; }
-
-        [Required]
-        [Display(Name = "Index")]
-        public string Index { get; set; }
     }
 }

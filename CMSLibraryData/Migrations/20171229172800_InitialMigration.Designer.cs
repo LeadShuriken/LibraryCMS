@@ -12,8 +12,8 @@ using System;
 namespace CMSLibraryData.Migrations
 {
     [DbContext(typeof(CMSLibraryContext))]
-    [Migration("20171227215351_Second")]
-    partial class Second
+    [Migration("20171229172800_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,20 +21,6 @@ namespace CMSLibraryData.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CMSLibraryData.DBModels.AssetType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AssetType");
-                });
 
             modelBuilder.Entity("CMSLibraryData.DBModels.BranchHours", b =>
                 {
@@ -112,12 +98,15 @@ namespace CMSLibraryData.Migrations
 
                     b.Property<string>("ImageUrl");
 
+                    b.Property<string>("Index")
+                        .IsRequired();
+
                     b.Property<int?>("LocationId");
 
                     b.Property<int>("NumberOfCopies");
 
-                    b.Property<DateTime>("PublishDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime?>("PublishDate")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("StatusId");
 
@@ -256,9 +245,6 @@ namespace CMSLibraryData.Migrations
                         .IsRequired();
 
                     b.Property<string>("ISBN")
-                        .IsRequired();
-
-                    b.Property<string>("Index")
                         .IsRequired();
 
                     b.ToTable("Book");

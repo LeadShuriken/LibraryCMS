@@ -11,8 +11,6 @@ namespace CMSLibraryData
         IEnumerable<CMSLibraryAsset> GetAll();
         CMSLibraryAsset GetById(int id);
 
-        void Add(CMSLibraryAsset newAsset);
-
         /// <summary>
         /// GetSource returns aider the: Author, Director, Agency or Publisher of the asset
         /// respectfully for the type of: Book, Video, Magazine or Newspaper 

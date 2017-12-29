@@ -5,24 +5,10 @@ using System.Collections.Generic;
 
 namespace CMSLibraryData.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "AssetType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssetType", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "CMSLibraryBranch",
                 columns: table => new
@@ -129,15 +115,15 @@ namespace CMSLibraryData.Migrations
                 {
                     Author = table.Column<string>(nullable: true),
                     ISBN = table.Column<string>(nullable: true),
-                    Index = table.Column<string>(nullable: true),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Cost = table.Column<decimal>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
+                    Index = table.Column<string>(nullable: false),
                     LocationId = table.Column<int>(nullable: true),
                     NumberOfCopies = table.Column<int>(nullable: false),
-                    PublishDate = table.Column<DateTime>(nullable: false),
+                    PublishDate = table.Column<DateTime>(nullable: true),
                     StatusId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     Year = table.Column<int>(nullable: false),
@@ -303,9 +289,6 @@ namespace CMSLibraryData.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AssetType");
-
             migrationBuilder.DropTable(
                 name: "BranchHours");
 

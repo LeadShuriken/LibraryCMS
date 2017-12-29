@@ -61,7 +61,7 @@ namespace F84396_LibraryCMS.Controllers
                 SubscriberName = _checkouts.GetCurrentCheckoutSubscriberName(id),
                 CurrentHolds = _checkouts.GetCurrentHolds(id).Select(a => new AssetHoldModel
                 {
-                    HoldPlaced = _checkouts.GetCurrentHoldPlaced(a.Id),
+                    HoldPlaced = _checkouts.GetCurrentHoldPlacedTime(a.Id),
                     SubscriberName = _checkouts.GetCurrentHoldSubscriberName(a.Id)
                 })
             };
@@ -127,8 +127,8 @@ namespace F84396_LibraryCMS.Controllers
         [HttpPost]
         public IActionResult PlaceCheckout(int assetId, int libraryCardId)
         {
-            _checkouts.CheckoutItem(assetId, libraryCardId);
-            return RedirectToAction("Detail", new { id = assetId });
+            string info = _checkouts.CheckoutItem(assetId, libraryCardId);
+            return RedirectToAction("Detail", new { id = assetId , messege = info });
         }
 
         [HttpPost]

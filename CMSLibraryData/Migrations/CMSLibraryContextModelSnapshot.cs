@@ -97,6 +97,9 @@ namespace CMSLibraryData.Migrations
 
                     b.Property<string>("ImageUrl");
 
+                    b.Property<string>("Index")
+                        .IsRequired();
+
                     b.Property<int?>("LocationId");
 
                     b.Property<int>("NumberOfCopies");
@@ -241,9 +244,6 @@ namespace CMSLibraryData.Migrations
                         .IsRequired();
 
                     b.Property<string>("ISBN")
-                        .IsRequired();
-
-                    b.Property<string>("Index")
                         .IsRequired();
 
                     b.ToTable("Book");

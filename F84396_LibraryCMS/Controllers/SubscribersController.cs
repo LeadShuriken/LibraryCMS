@@ -18,7 +18,7 @@ namespace F84396_LibraryCMS.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Subscriber> allSubscribers = _subscriber.GetAll();
+            IEnumerable<Subscriber> allSubscribers = _subscriber.GetAllSubscribers();
 
             List<SubscribersDetailModel> model = allSubscribers.Select(p => new SubscribersDetailModel
             {
@@ -38,7 +38,7 @@ namespace F84396_LibraryCMS.Controllers
 
         public IActionResult Detail(int id)
         {
-            Subscriber subscriber = _subscriber.Get(id);
+            Subscriber subscriber = _subscriber.GetSubscriber(id);
 
             SubscribersDetailModel model = new SubscribersDetailModel
             {
