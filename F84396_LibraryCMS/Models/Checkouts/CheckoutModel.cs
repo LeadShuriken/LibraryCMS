@@ -1,5 +1,8 @@
 ﻿namespace F84396_LibraryCMS.Models.Checkouts
 {
+    /// <summary>
+    /// Views/Catalog/Checkout
+    /// </summary>
     public class CheckoutModel
     {
         public string LibraryCardId { get; set; }

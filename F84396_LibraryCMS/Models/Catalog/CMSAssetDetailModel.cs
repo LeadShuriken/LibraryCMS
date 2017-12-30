@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace F84396_LibraryCMS.Models.Catalog
 {
+    /// <summary>
+    /// Views/Catalog/Detail
+    /// </summary>
     public class CMSAssetDetailModel
     {
         public int AssetId { get; set; }

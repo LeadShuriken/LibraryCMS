@@ -58,20 +58,5 @@ namespace F84396_LibraryCMS.Controllers
 
             return View(model);
         }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        public IActionResult Edit()
-        {
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View();
-        }
     }
 }

@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace F84396_LibraryCMS.Models.Subscribers
 {
+    /// <summary>
+    /// /Views/Subscribers/Edit
+    /// TODO: Not implemented
+    /// </summary>
     public class SubscribersEditModel
     {
         [Display(Name ="First Name")]

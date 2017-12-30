@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace F84396_LibraryCMS.Models.Catalog
-{
+{    
+    /// <summary>
+    /// Helper to Index and Details
+    /// </summary>
     public class CMSAssetsListing
     {
         public int Id { get; set; }

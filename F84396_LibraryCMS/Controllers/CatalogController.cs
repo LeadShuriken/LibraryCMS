@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace F84396_LibraryCMS.Controllers
 {
+    /// <summary>
+    /// CatalogController
+    /// </summary>
     public class CatalogController : Controller
     {
         private ICMSLibraryAsset _assets;
@@ -76,34 +79,26 @@ namespace F84396_LibraryCMS.Controllers
         // These are almost the same
         public IActionResult Checkout(int id)
         {
-            var asset = _assets.GetById(id);
-
-            var model = new CheckoutModel
-            {
-                AssetId = id,
-                ImageUrl = asset.ImageUrl,
-                Title = asset.Title,
-                LibraryCardId = "",
-                IsCheckedOut = _checkouts.IsCheckedOut(id)
-            };
-            return View(model);
+            return View(GetAssetBasicInfo(id));
         }
 
         public IActionResult Hold(int id)
         {
+            return View(GetAssetBasicInfo(id));
+        }
+
+        private CheckoutModel GetAssetBasicInfo(int id)
+        {
             var asset = _assets.GetById(id);
 
-            var model = new CheckoutModel
+            return (new CheckoutModel
             {
                 AssetId = id,
                 ImageUrl = asset.ImageUrl,
                 Title = asset.Title,
-                LibraryCardId = "",
-                HoldCount = _checkouts.GetCurrentHolds(id).Count()
-            };
-            return View(model);
+                LibraryCardId = ""
+            });
         }
-        // These are almost the same
 
         public IActionResult CheckIn(int id)
         {

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace F84396_LibraryCMS.Models.Subscribers
 {
+    /// <summary>
+    /// /Views/Subscribers/Detail
+    /// </summary>
     public class SubscribersDetailModel
     {
         public int Id { get; set; }

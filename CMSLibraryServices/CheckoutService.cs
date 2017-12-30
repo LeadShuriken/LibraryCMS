@@ -54,8 +54,6 @@ namespace CMSLibraryServices
                 .Include(a => a.Status)
                 .FirstOrDefault(a => a.Id == assetId);
 
-            UpdateStatus(assetId, "Checked Out"); // Changes the status of the asset
-
             CMSLibraryCard libraryCard = _context.CMSLibraryCard
                 .Include(c => c.Checkouts)
                 .FirstOrDefault(a => a.Id == libraryCardId);
@@ -63,6 +61,13 @@ namespace CMSLibraryServices
             if (libraryCard == null)
             {
                 return "Invalid card!"; // make sure the library card is valid
+            }
+
+            IEnumerable<Hold> currentHolds = GetCurrentHolds(assetId);
+            if (!currentHolds.Any())
+            {
+                // Changes the status of the asset to "Checked Out" if the Hold queue is empty
+                UpdateStatus(assetId, "Checked Out");
             }
 
             Checkout checkout = new Checkout // creating the checkout
@@ -196,19 +201,23 @@ namespace CMSLibraryServices
             CMSLibraryCard libraryCard = _context.CMSLibraryCard
                 .FirstOrDefault(a => a.Id == libraryCardId);
 
-            IEnumerable<Hold> currentHolds = GetCurrentHolds(assetId);
-            Checkout currentCheckout = GetLatestCheckout(assetId);
             if (libraryCard == null) // when the card is not valid
             {
                 return "Invalid card!";
             }
-            else if (currentCheckout.LibraryCard.Id == libraryCardId) // when the checkouter is trying to place a hold
+            else if (GetLatestCheckout(assetId).LibraryCard.Id == libraryCardId) // when the checkouter is trying to place a hold
             {
                 return "You cannot place a hold on an item which you have checked out!";
             }
-            else if (currentHolds.Any(a => a.LibraryCard.Id == libraryCardId)) // when you are trying to place a second hold on an item
+            else if (GetCurrentHolds(assetId).Any(a => a.LibraryCard.Id == libraryCardId)) // when you are trying to place a second hold on an item
             {
                 return "You have allready placed a hold on that item!";
+            }
+
+            _context.Update(asset);
+            if (asset.Status.Name == "Checked Out")
+            {
+                UpdateStatus(assetId, "On Hold");
             }
 
             Hold hold = new Hold
@@ -239,12 +248,8 @@ namespace CMSLibraryServices
             RemoveExistingCheckout(assetId);
 
             CloseExistingCheckoutHistory(assetId, now);
-            
-            IQueryable<Hold> currentHolds = _context.Hold
-                .Include(a => a.LibraryAsset)
-                .Include(a => a.LibraryCard)
-                .Where(a => a.LibraryAsset.Id == assetId);
 
+            IEnumerable<Hold> currentHolds = GetCurrentHolds(assetId);
             // if there are current holds, check out the item to the earliest
             if (currentHolds.Any())
             {
