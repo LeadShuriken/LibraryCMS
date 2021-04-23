@@ -10,7 +10,7 @@ Refer to [link] for extended details.
 
 ## Technologies
 
-SHARP-MVC-LIBRARY-MANAGEMENT uses a number of open source projects:
+CSHARP-MVC-LIBRARY-MANAGEMENT uses a number of open source projects:
 
   * [CSHARP] - THE C# PROGRAMMING LANGUAGE
   * [ASP.NET MVC] - A DESIGN PATTERN FOR ACHIEVING A CLEAN SEPARATION OF CONCERNS
