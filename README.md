@@ -17,6 +17,8 @@ RUBY-MY-ROTTEN-POTATOES uses a number of open source projects:
 
 ### Todos
 
+Anything will be great C# is cool.
+
   [CSHARP]: https://en.wikipedia.org/wiki/C_Sharp_(programming_language)
   [ASP.NET MVC]: https://dotnet.microsoft.com/apps/aspnet/mvc
   [link]: https://github.com/LeadShuriken/csharp-mvc-library-management/blob/master/Misc/F84396_LibraryCMS_DOCS.pdf?raw=true
